@@ -1,606 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Kryzen.net · Sticker Gallery</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ASTRA Gallery</title>
+<style>
+* {
+  margin: 0; padding: 0; box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
 
-    :root {
-      --bg: #0c0c0d;
-      --surface: #111113;
-      --surface-2: #161618;
-      --border: #1f1f22;
-      --border-soft: #19191c;
-      --text: #e8e8ea;
-      --text-dim: #5a5a62;
-      --text-muted: #2e2e34;
-      --accent: #888888;
-      --accent-dim: #555555;
-      --green: #4ade80;
-      --mono: 'DM Mono', monospace;
-      --display: 'Syne', sans-serif;
-    }
+body {
+  background: #111;
+  color: #ddd;
+  font-family: 'Courier New', monospace;
+  min-height: 100vh;
+}
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--mono);
-      min-height: 100vh;
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-    }
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid #1e1e1e;
+}
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      padding: 0 32px;
-      height: 60px;
-      border-bottom: 1px solid var(--border);
-      background: rgba(12, 12, 13, 0.88);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-    }
+header span {
+  font-size: 13px;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+header small {
+  font-size: 11px;
+  color: #444;
+}
 
-    .logo-names {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-    }
+main {
+  padding: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
 
-    .logo-title {
-      font-family: var(--display);
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text);
-      line-height: 1;
-    }
+.info {
+  margin-bottom: 16px;
+}
 
-    .logo-sub {
-      font-family: var(--mono);
-      font-size: 9px;
-      color: var(--text-dim);
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      line-height: 1;
-    }
+.info h2 {
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 3px;
+}
 
-    .header-center {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+.info p {
+  font-size: 11px;
+  color: #444;
+}
 
-    .header-username {
-      font-family: var(--display);
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text);
-      letter-spacing: 0.04em;
-      display: none;
-    }
+.bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
 
-    .header-date {
-      font-size: 9px;
-      color: var(--text-dim);
-      text-transform: uppercase;
-    }
+.btn {
+  background: none;
+  border: 1px solid #2a2a2a;
+  color: #888;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-family: 'Courier New', monospace;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  letter-spacing: 0.05em;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
 
-    .header-right {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-    }
+.btn:hover { border-color: #555; color: #ccc; }
+.btn.copied { border-color: #2a4a2a; color: #4ade80; }
 
-    .header-count {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--text-dim);
-      letter-spacing: 0.08em;
-      display: none;
-      align-items: center;
-      gap: 7px;
-    }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+}
 
-    .header-count-dot {
-      width: 5px;
-      height: 5px;
-      background: var(--accent);
-      border-radius: 50%;
-      animation: pulse 2s ease-in-out infinite;
-      flex-shrink: 0;
-    }
+.card {
+  border: 1px solid #1e1e1e;
+  background: #151515;
+}
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.7); }
-    }
+.card-img {
+  width: 100%;
+  aspect-ratio: 1;
+  background: #0f0f0f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    main {
-      padding: 40px 32px 80px;
-      max-width: 1080px;
-      margin: 0 auto;
-    }
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: none;
+}
 
-    #loading, #empty, #error {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 50vh;
-      gap: 16px;
-      text-align: center;
-    }
+.card-img .lbl {
+  font-size: 10px;
+  color: #333;
+}
 
-    .spinner {
-      width: 32px;
-      height: 32px;
-      border: 1.5px solid var(--border);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin-bottom: 8px;
-    }
+.card-foot {
+  padding: 7px 8px 8px;
+  border-top: 1px solid #1e1e1e;
+}
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+.card-id {
+  font-size: 9px;
+  color: #444;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 6px;
+}
 
-    .state-title {
-      font-family: var(--display);
-      font-weight: 600;
-      font-size: 18px;
-      letter-spacing: -0.02em;
-    }
+.copy-btn {
+  width: 100%;
+  padding: 5px;
+  background: none;
+  border: 1px solid #222;
+  color: #666;
+  font-size: 10px;
+  font-family: 'Courier New', monospace;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
 
-    .state-sub {
-      font-size: 12px;
-      color: var(--text-dim);
-    }
+.copy-btn:hover { border-color: #444; color: #aaa; }
+.copy-btn.copied { border-color: #2a4a2a; color: #4ade80; }
 
-    #content {
-      display: none;
-    }
+#loading, #empty, #error {
+  text-align: center;
+  padding: 80px 24px;
+  font-size: 12px;
+  color: #333;
+}
 
-    .bar {
-      margin-bottom: 28px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--border-soft);
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--text-dim);
-      padding: 8px 18px;
-      font-size: 11px;
-      font-family: var(--mono);
-      cursor: pointer;
-      text-decoration: none;
-      letter-spacing: 0.08em;
-      outline: none;
-      transition: all 0.15s;
-      white-space: nowrap;
-      border-radius: 0;
-    }
-
-    .btn:hover {
-      border-color: #3a3a3e;
-      color: var(--text);
-      background: var(--surface);
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #0c0c0d;
-      font-weight: 600;
-    }
-
-    .btn-primary:hover {
-      background: #aaaaaa;
-      border-color: #aaaaaa;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 1px;
-      background: var(--border-soft);
-      border: 1px solid var(--border-soft);
-    }
-
-    .card {
-      background: var(--bg);
-      display: flex;
-      flex-direction: column;
-      transition: background 0.15s;
-    }
-
-    .card:hover {
-      background: var(--surface);
-    }
-
-    .card-img {
-      width: 100%;
-      aspect-ratio: 1;
-      background: var(--surface);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .card-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      transition: transform 0.2s ease;
-    }
-
-    .card:hover .card-img img {
-      transform: scale(1.02);
-    }
-
-    .card-foot {
-      padding: 10px 11px 11px;
-      border-top: 1px solid var(--border-soft);
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .card-id {
-      font-size: 10px;
-      color: var(--text-dim);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      letter-spacing: 0.04em;
-      font-family: var(--mono);
-      text-align: center;
-    }
-
-    .copy-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      width: 100%;
-      padding: 6px;
-      background: none;
-      border: 1px solid var(--border-soft);
-      color: var(--text-muted);
-      font-size: 9px;
-      font-family: var(--mono);
-      cursor: pointer;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      outline: none;
-      transition: all 0.15s;
-    }
-
-    .copy-btn:hover {
-      border-color: #333338;
-      color: var(--text-dim);
-      background: var(--surface-2);
-    }
-
-    @media (max-width: 600px) {
-      header {
-        padding: 0 20px;
-        grid-template-columns: auto 1fr auto;
-        gap: 8px;
-      }
-      main {
-        padding: 28px 20px 60px;
-      }
-      .grid {
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-      }
-      .logo-title {
-        font-size: 13px;
-      }
-      .logo-sub {
-        font-size: 7px;
-      }
-    }
-  </style>
+code {
+  font-family: 'Courier New', monospace;
+  background: #1a1a1a;
+  padding: 2px 6px;
+  font-size: 11px;
+  color: #555;
+}
+</style>
 </head>
 <body>
+
 <header>
-  <div class="logo">
-    <div class="logo-names">
-      <span class="logo-title">Kryzen.net</span>
-      <span class="logo-sub">Sticker Gallery</span>
-    </div>
-  </div>
-  <div class="header-center">
-    <div class="header-username" id="header-username"></div>
-    <div class="header-date" id="header-date"></div>
-  </div>
-  <div class="header-right">
-    <div class="header-count" id="hcount">
-      <div class="header-count-dot"></div>
-      <span id="hcount-text"></span>
-    </div>
-  </div>
+  <span>Gallery</span>
+  <small id="hcount"></small>
 </header>
+
 <main>
-  <div id="loading">
-    <div class="spinner"></div>
-    <div class="state-title">Fetching stickers...</div>
-    <div class="state-sub">Hang tight while we load the paste.</div>
-  </div>
-  <div id="empty" style="display:none">
-    <div class="state-title">No paste ID provided</div>
-    <div class="state-sub">Use ?id=your_paste_id in the URL</div>
-  </div>
-  <div id="error" style="display:none">
-    <div class="state-title">Could not load</div>
-    <div class="state-sub">The paste may be invalid, expired, or unreachable.</div>
-  </div>
-  <div id="content">
-    <div class="bar">
-      <button class="btn btn-primary" id="copy-all">
-        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1"/><path d="M8 4V2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h2"/></svg>
-        Copy All IDs
-      </button>
-      <a href="#" class="btn" id="raw-link" target="_blank" rel="noopener noreferrer">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        Raw
-      </a>
+  <div id="loading">loading...</div>
+  <div id="empty" style="display:none">no paste id — add <code>?id=PASTE_ID</code> to the url.</div>
+  <div id="error" style="display:none">failed to load. paste may be invalid or expired.</div>
+
+  <div id="content" style="display:none">
+    <div class="info">
+      <h2 id="title"></h2>
+      <p id="sub"></p>
+    </div>
+    <div class="bar" style="display:none">
+      <button class="btn" id="copy-all">copy all ids</button>
+      <a class="btn" id="raw" href="#" target="_blank">raw paste</a>
     </div>
     <div class="grid" id="grid"></div>
   </div>
 </main>
 
 <script>
-  (function() {
-    // get paste ID from query string
-    const urlParams = new URLSearchParams(window.location.search);
-    let pasteId = urlParams.get('id');
+const id = new URLSearchParams(location.search).get('id');
 
-    // if no id, fallback to a default demo ID? but we show empty state properly
-    function showState(el) {
-      const loadingDiv = document.getElementById('loading');
-      const emptyDiv = document.getElementById('empty');
-      const errorDiv = document.getElementById('error');
-      const contentDiv = document.getElementById('content');
-      loadingDiv.style.display = 'none';
-      emptyDiv.style.display = 'none';
-      errorDiv.style.display = 'none';
-      contentDiv.style.display = 'none';
-      if (el === 'loading') loadingDiv.style.display = 'flex';
-      else if (el === 'empty') emptyDiv.style.display = 'flex';
-      else if (el === 'error') errorDiv.style.display = 'flex';
-      else if (el === 'content') contentDiv.style.display = 'block';
-    }
+function s(el, show) {
+  ['loading','empty','error','content'].forEach(x => {
+    document.getElementById(x).style.display = x === el ? (show === false ? 'none' : '') : 'none';
+  });
+}
 
-    function copyTextToClipboard(text, btnElement) {
-      const fallbackCopy = () => {
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        textarea.style.position = 'fixed';
-        textarea.style.opacity = '0';
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
-      };
-      (navigator.clipboard ? navigator.clipboard.writeText(text).catch(fallbackCopy) : Promise.resolve(fallbackCopy()))
-        .then(() => {
-          if (!btnElement) return;
-          const originalHTML = btnElement.innerHTML;
-          if (btnElement.classList.contains('copy-btn')) {
-            btnElement.innerHTML = '✓ Copied!';
-          } else {
-            btnElement.innerHTML = btnElement.innerHTML.replace(/Copy All IDs/i, 'Copied!');
-          }
-          setTimeout(() => {
-            btnElement.innerHTML = originalHTML;
-          }, 1500);
-        })
-        .catch(() => {});
-    }
+function copy(text, btn) {
+  const fallback = () => {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+  };
+  (navigator.clipboard ? navigator.clipboard.writeText(text).catch(fallback) : Promise.resolve(fallback())).then(() => {
+    if (!btn) return;
+    const o = btn.textContent; btn.textContent = 'copied!'; btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = o; btn.classList.remove('copied'); }, 1500);
+  });
+}
 
-    function extractIdsFromText(rawText) {
-      // match numbers with at least 6 digits (Roblox asset IDs)
-      const matches = rawText.match(/\b\d{6,}\b/g);
-      return matches ? [...new Set(matches)] : []; // unique ids
-    }
+function parseIds(t) { return t.split('\n').map(l => l.trim()).filter(l => /^\d{8,}$/.test(l)); }
+function parseMeta(t) {
+  return {
+    from: (t.match(/^Stickers from:\s*(.+)$/m) || [])[1]?.trim() || 'Unknown',
+    date: (t.match(/^Date:\s*(.+)$/m) || [])[1]?.trim() || ''
+  };
+}
 
-    async function fetchWithFallback(url) {
-      // primary fetch
-      try {
-        const res = await fetch(url);
-        if (res.ok) {
-          const text = await res.text();
-          if (text && text.trim().length > 0) return text;
-        }
-      } catch (e) { /* ignore */ }
-      // fallback: allorigins proxy
-      try {
-        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
-        const proxyRes = await fetch(proxyUrl);
-        if (proxyRes.ok) {
-          const text = await proxyRes.text();
-          if (text && text.trim().length > 0) return text;
-        }
-      } catch (e) {}
-      return null;
-    }
+async function tryFetch(url) {
+  const tries = [
+    url,
+    `https://corsproxy.io/?${encodeURIComponent(url)}`,
+    `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`
+  ];
+  for (const u of tries) {
+    try {
+      const r = await fetch(u);
+      if (r.ok) { const t = await r.text(); if (t) return t; }
+    } catch (_) {}
+  }
+  return null;
+}
 
-    async function loadStickerPack() {
-      if (!pasteId) {
-        showState('empty');
-        return;
+async function fetchThumbs(ids) {
+  const map = {};
+  for (let i = 0; i < ids.length; i += 50) {
+    const batch = ids.slice(i, i + 50);
+    try {
+      const r = await fetch(`/api/thumbnails?ids=${batch.join(',')}`);
+      if (r.ok) {
+        const d = await r.json();
+        (d.data || []).forEach(item => { if (item.imageUrl) map[String(item.targetId)] = item.imageUrl; });
       }
+    } catch (_) {}
+  }
+  return map;
+}
 
-      const rawUrl = `https://pastefy.app/${pasteId}/raw`;
-      const rawLink = document.getElementById('raw-link');
-      if (rawLink) rawLink.href = rawUrl;
+function card(id) {
+  const d = document.createElement('div');
+  d.className = 'card';
+  d.innerHTML = `
+    <div class="card-img"><span class="lbl">loading...</span><img alt=""></div>
+    <div class="card-foot">
+      <div class="card-id">${id}</div>
+      <button class="copy-btn">copy id</button>
+    </div>`;
+  d.querySelector('.copy-btn').onclick = () => copy(id, d.querySelector('.copy-btn'));
+  return d;
+}
 
-      const rawContent = await fetchWithFallback(rawUrl);
-      if (!rawContent) {
-        showState('error');
-        return;
-      }
+function applyThumb(c, url) {
+  const img = c.querySelector('img'), lbl = c.querySelector('.lbl');
+  img.onload = () => { lbl.style.display = 'none'; img.style.display = 'block'; };
+  img.onerror = () => { lbl.textContent = 'no preview'; };
+  img.src = url;
+}
 
-      // parse IDs
-      let stickerIds = extractIdsFromText(rawContent);
-      if (stickerIds.length === 0) {
-        // maybe the raw content is just IDs separated by spaces / newlines, try again but more flexible
-        const numbers = rawContent.match(/\d+/g);
-        if (numbers && numbers.length) {
-          stickerIds = numbers.filter(n => n.length >= 6);
-        }
-        if (stickerIds.length === 0) {
-          showState('error');
-          return;
-        }
-      }
+async function init() {
+  if (!id) { s('empty'); return; }
 
-      // extract optional "Stickers from:" line
-      const usernameMatch = rawContent.match(/Stickers? from:\s*(.+?)(?:\n|$)/i);
-      const packTitle = usernameMatch ? usernameMatch[1].trim() : 'Sticker Pack';
-      const usernameEl = document.getElementById('header-username');
-      if (usernameEl) {
-        usernameEl.textContent = packTitle;
-        usernameEl.style.display = 'block';
-      }
+  const rawUrl = `https://pastefy.app/${id}/raw`;
+  const text = await tryFetch(rawUrl);
+  if (!text) { s('error'); return; }
 
-      // update date: current formatted date
-      const now = new Date();
-      const formattedDate = now.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-      const dateEl = document.getElementById('header-date');
-      if (dateEl) dateEl.textContent = formattedDate;
+  const ids = parseIds(text);
+  if (!ids.length) { s('error'); return; }
 
-      const countContainer = document.getElementById('hcount');
-      const countTextSpan = document.getElementById('hcount-text');
-      if (countContainer && countTextSpan) {
-        countTextSpan.textContent = `${stickerIds.length} Stickers`;
-        countContainer.style.display = 'flex';
-      }
+  const meta = parseMeta(text);
+  document.getElementById('title').textContent = `${meta.from}'s Stickers`;
+  document.getElementById('sub').textContent = `${ids.length} sticker${ids.length !== 1 ? 's' : ''}${meta.date ? ' · ' + meta.date : ''}`;
+  document.getElementById('hcount').textContent = ids.length + ' stickers';
+  document.getElementById('raw').href = rawUrl;
+  document.getElementById('copy-all').onclick = () => copy(ids.join('\n'), document.getElementById('copy-all'));
 
-      // build grid
-      const gridContainer = document.getElementById('grid');
-      if (!gridContainer) return;
-      gridContainer.innerHTML = '';
+  const grid = document.getElementById('grid');
+  const cards = {};
+  ids.forEach(id => { const c = card(id); cards[id] = c; grid.appendChild(c); });
 
-      // create cards without images first, then lazy load thumbnails
-      stickerIds.forEach(id => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.setAttribute('data-id', id);
-        card.innerHTML = `
-          <div class="card-img">
-            <img id="img-${id}" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420' viewBox='0 0 420 420'%3E%3Crect width='420' height='420' fill='%23111113'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%235a5a62' font-family='monospace' font-size='14'%3E${id}%3C/text%3E%3C/svg%3E" alt="sticker ${id}" loading="lazy">
-          </div>
-          <div class="card-foot">
-            <div class="card-id">${id}</div>
-            <button class="copy-btn">Copy ID</button>
-          </div>
-        `;
-        const copyBtn = card.querySelector('.copy-btn');
-        copyBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          copyTextToClipboard(id, copyBtn);
-        });
-        gridContainer.appendChild(card);
-      });
+  s('content');
 
-      showState('content');
+  const thumbs = await fetchThumbs(ids);
+  ids.forEach(id => {
+    if (thumbs[id]) applyThumb(cards[id], thumbs[id]);
+    else cards[id].querySelector('.lbl').textContent = 'no preview';
+  });
+}
 
-      // fetch thumbnails in chunks via roproxy (asset thumbnail API)
-      const chunkSize = 100;
-      for (let i = 0; i < stickerIds.length; i += chunkSize) {
-        const chunk = stickerIds.slice(i, i + chunkSize);
-        const proxyThumbUrl = `https://thumbnails.roproxy.com/v1/assets?assetIds=${chunk.join(',')}&returnPolicy=PlaceHolder&size=420x420&format=Png`;
-        try {
-          const response = await fetch(proxyThumbUrl);
-          if (response.ok) {
-            const json = await response.json();
-            if (json && json.data && Array.isArray(json.data)) {
-              json.data.forEach(item => {
-                const imgElement = document.getElementById(`img-${item.targetId}`);
-                if (imgElement) {
-                  if (item.state === 'Completed' && item.imageUrl) {
-                    imgElement.src = item.imageUrl;
-                  } else {
-                    // fallback: keep placeholder but add indicator
-                    if (!imgElement.src.includes('placehold')) {
-                      imgElement.src = `https://placehold.co/420x420/1a1a1c/5a5a62?text=${item.targetId.slice(-4)}`;
-                    }
-                  }
-                }
-              });
-            }
-          } else {
-            // if roproxy fails, fallback: generate minimal placeholder but do not break layout
-            console.warn('thumbnail batch failed');
-          }
-        } catch (err) {
-          console.warn('thumbnail fetch error', err);
-        }
-      }
-    }
-
-    // attach global copy-all handler after content ready
-    function bindGlobalActions() {
-      const copyAllBtn = document.getElementById('copy-all');
-      if (copyAllBtn) {
-        copyAllBtn.addEventListener('click', () => {
-          const allIds = Array.from(document.querySelectorAll('.card-id')).map(el => el.innerText.trim());
-          if (allIds.length) {
-            copyTextToClipboard(allIds.join('\n'), copyAllBtn);
-          } else {
-            copyAllBtn.innerHTML = 'No IDs';
-            setTimeout(() => { copyAllBtn.innerHTML = 'Copy All IDs'; }, 1000);
-          }
-        });
-      }
-    }
-
-    // init
-    loadStickerPack().then(() => {
-      bindGlobalActions();
-    }).catch(() => {
-      if (document.getElementById('error').style.display !== 'flex') {
-        showState('error');
-      }
-    });
-  })();
+init();
 </script>
 </body>
 </html>
